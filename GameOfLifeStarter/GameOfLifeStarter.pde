@@ -6,14 +6,14 @@ boolean start = false;
 void setup() {
   size(800, 600); // adjust accordingly, make sure it's a multiple of SPACING
   noStroke(); // don't draw the edges of each cell
-  frameRate(60); // controls speed of regeneration
+  frameRate(10); // controls speed of regeneration
   grid = new int[height / SPACING][width / SPACING];
   // populate initial grid
   // your code here
 }
 
 void keyPressed() {
-  if (key == 's') {
+  if (key == ' ') {
     start = !start;
   }
 }
@@ -27,7 +27,6 @@ void draw() {
   showGrid();
   if (start) {
     grid = calcNextGrid();
-    System.out.println("Started");
   }
 }
 
