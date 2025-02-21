@@ -1,5 +1,4 @@
- //<>//
-final int SPACING = 10; // each cell's width/height //<>// //<>//
+final int SPACING = 10; // each cell's width/height //<>// //<>// //<>//
 final float DENSITY = 0.1; // how likely each cell is to be alive at the start
 int[][] grid; // the 2D array to hold 0's and 1's
 color[][] duration;
