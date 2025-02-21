@@ -1,34 +1,39 @@
-final int SPACING = 20; // each cell's width/height //<>// //<>//
+final int SPACING = 10; // each cell's width/height //<>// //<>//
 final float DENSITY = 0.1; // how likely each cell is to be alive at the start
 int[][] grid; // the 2D array to hold 0's and 1's
+color[][] duration;
 boolean start = false;
+int bg = 0;
 
 void setup() {
   size(800, 600); // adjust accordingly, make sure it's a multiple of SPACING
   noStroke(); // don't draw the edges of each cell
-  frameRate(5); // controls speed of regeneration
+  frameRate(10); // controls speed of regeneration
+  colorMode(HSB, 10);
   grid = new int[height / SPACING][width / SPACING];
+  duration = new int[height / SPACING][width / SPACING];
   // populate initial grid
   // your code here
+}
+
+void draw() {
+  background(0 , 0 , bg*100);
+  showGrid();
+  if (start) {
+    grid = calcNextGrid();
+  }
 }
 
 void keyPressed() {
   if (key == ' ') {
     start = !start;
+      bg = ((bg+1) % 2);
   }
 }
 
-void mouseClicked() {
+void mouseReleased() {
   grid[mouseY / SPACING][mouseX / SPACING] = 1;
   showGrid();
-}
-
-void draw() {
-  background(51);
-  showGrid();
-  if (start) {
-    grid = calcNextGrid();
-  }
 }
 
 int[][] calcNextGrid() {
@@ -36,6 +41,7 @@ int[][] calcNextGrid() {
   for (int r = 0; r < grid.length; r++) {
     for (int c = 0; c < grid[0].length; c++) {
       nextGrid[r][c] = calcNextGen(r, c);
+      duration[r][c] = (grid[r][c] == 1 && nextGrid[r][c] == grid[r][c]) ? min(duration[r][c] + 1, 50): 0;
     }
   }
   // your code here
@@ -63,9 +69,6 @@ int countNeighbors(int y, int x) {
       n++;
     }
   }
-  // your code here
-  // don't check out-of-bounds cells
-
   return n;
 }
 
@@ -83,9 +86,13 @@ void showGrid() {
   for (int r = 0; r < grid.length; r++) {
     for (int c = 0; c < grid[0].length; c++) {
       if (grid[r][c] == 1) {
-        fill(255, 0, 0);
+        fill(calcColor(r, c));
         square(c*SPACING, r*SPACING, SPACING);
       }
     }
   }
+}
+
+color calcColor(int y, int x) {
+  return color(duration[y][x] / 10, 100, 100);
 }
