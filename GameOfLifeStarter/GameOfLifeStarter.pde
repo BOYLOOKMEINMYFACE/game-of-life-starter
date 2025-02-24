@@ -1,4 +1,4 @@
-final int SPACING = 10; // each cell's width/height //<>// //<>// //<>//
+final int SPACING = 5; // each cell's width/height //<>// //<>// //<>//
 final float DENSITY = 0.1; // how likely each cell is to be alive at the start
 int[][] grid; // the 2D array to hold 0's and 1's
 color[][] duration;
@@ -17,7 +17,7 @@ void setup() {
 void draw() {
   background(0, 0, bg*100);
   showGrid();
-  if (start||(keyPressed && keyCode == RIGHT)) {
+  if (start) {
     grid = calcNextGrid();
   }
 }
@@ -27,8 +27,11 @@ void keyPressed() {
     start = !start;
     bg = ((bg+1) % 2);
   }
+  if (keyCode == RIGHT) {
+    grid = calcNextGrid();
+  }
   if (key == 'i') {
-    initGrid(.2);
+    initGrid(.5);
   }
   if (key == 'r') {
     initGrid(1);
