@@ -17,7 +17,7 @@ void setup() {
 }
 
 void draw() {
-  background(0 , 0 , bg*100);
+  background(0, 0, bg*100);
   showGrid();
   if (start) {
     grid = calcNextGrid();
@@ -27,7 +27,7 @@ void draw() {
 void keyPressed() {
   if (key == ' ') {
     start = !start;
-      bg = ((bg+1) % 2);
+    bg = ((bg+1) % 2);
   }
 }
 
@@ -50,13 +50,7 @@ int[][] calcNextGrid() {
 
 int calcNextGen(int y, int x) {
   int neighbors = countNeighbors(y, x);
-  if (grid[y][x] == 0 && neighbors == 3) {
-    return 1;
-  }
-  if (grid[y][x] == 1 && (neighbors == 2 || neighbors == 3)) {
-    return 1;
-  }
-  return 0;
+  return (neighbors == 3 ||(grid[y][x] == 1 && neighbors == 2)) ? 1 : 0;
 }
 
 int countNeighbors(int y, int x) {
@@ -86,13 +80,9 @@ void showGrid() {
   for (int r = 0; r < grid.length; r++) {
     for (int c = 0; c < grid[0].length; c++) {
       if (grid[r][c] == 1) {
-        fill(calcColor(r, c));
+        fill(duration[r][c] / 10, 100, 50);
         square(c*SPACING, r*SPACING, SPACING);
       }
     }
   }
-}
-
-color calcColor(int y, int x) {
-  return color(duration[y][x] / 10, 100, 100);
 }
