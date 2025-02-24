@@ -12,14 +12,12 @@ void setup() {
   colorMode(HSB, 10);
   grid = new int[height / SPACING][width / SPACING];
   duration = new int[height / SPACING][width / SPACING];
-  // populate initial grid
-  // your code here
 }
 
 void draw() {
   background(0, 0, bg*100);
   showGrid();
-  if (start) {
+  if (start||(keyPressed && keyCode == RIGHT)) {
     grid = calcNextGrid();
   }
 }
@@ -28,6 +26,12 @@ void keyPressed() {
   if (key == ' ') {
     start = !start;
     bg = ((bg+1) % 2);
+  }
+  if (key == 'i') {
+    initGrid(.2);
+  }
+  if (key == 'r') {
+    initGrid(1);
   }
 }
 
@@ -85,4 +89,12 @@ void showGrid() {
       }
     }
   }
+}
+
+void initGrid(double density) {
+  for (int r = 0; r < grid.length; r++) {
+    for (int c = 0; c < grid[0].length; c++) {
+      grid[r][c] = ((int)(Math.random() / density) == 1) ? 1 : 0;
+  }
+}
 }
