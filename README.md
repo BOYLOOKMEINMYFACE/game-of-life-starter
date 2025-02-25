@@ -14,11 +14,11 @@ For a space that is unpopulated (0):
 
 ## Controls
 
-Press space to start/stop generating.\
-Press right arrow for the next generation.\
-Press i to generate an initial grid that is randomly populated.\
-Press r to clear screen.\
-Press a to randomly add lives.\
-Click with mouse to add a life to the designated cell.
+Press **space** to start/stop generating.\
+Press **right arrow** for the next generation.\
+Press **i** to generate an initial grid that is randomly populated.\
+Press **r** to clear screen.\
+Press **a** to randomly add lives.\
+**Click with mouse** to add a life to the designated cell.
 
 ### Good luck!
