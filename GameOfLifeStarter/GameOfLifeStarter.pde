@@ -1,10 +1,9 @@
 final int SPACING = 10; // each cell's width/height //<>// //<>// //<>//
-final float DENSITY = 0.1; // how likely each cell is to be alive at the start
+final float DENSITY = 0.3; // how likely each cell is to be alive at the start
 int[][] grid; // the 2D array to hold 0's and 1's
 color[][] duration;
 boolean start = false;
 int bg = 0;
-float density = .3;
 
 void setup() {
   size(800, 600); // adjust accordingly, make sure it's a multiple of SPACING
@@ -24,22 +23,25 @@ void draw() {
 }
 
 void keyPressed() {
-  if (key == ' ') {
+  if (key == ' ') { // pause and start 
     start = !start;
     bg = ((bg+1) % 2);
   }
-  if (keyCode == RIGHT) {
+  if (keyCode == RIGHT) { // get next generation
     grid = calcNextGrid();
   }
-  if (key == 'i') {
-    initGrid(density);
+  if (key == 'i') { // randomly initialize population
+    initGrid(DENSITY);
   }
-  if (key == 'r') {
+  if (key == 'r') { // clear screen
     initGrid(1);
+  }
+  if (key == 'a') { // add new random lives
+    addLives();
   }
 }
 
-void mouseReleased() {
+void mouseReleased() { // generate a life at the cell being clicked
   grid[mouseY / SPACING][mouseX / SPACING] = 1;
   showGrid();
 }
@@ -63,12 +65,12 @@ int calcNextGen(int y, int x) {
 
 int countNeighbors(int y, int x) {
   int n = 0; // don't count yourself!
-  int[][] space = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+  int[][] space = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}; //surrounding indices
   for (int i = 0; i < space.length; i++) {
     int yIncr = space[i][0];
     int xIncr = space[i][1];
     if (checkBounds(y, x, yIncr, xIncr) && grid[y + yIncr][x + xIncr] == 1) {
-      n++;
+      n++; // Check if the space is out of bound and if it is occupied.
     }
   }
   return n;
@@ -88,7 +90,7 @@ void showGrid() {
   for (int r = 0; r < grid.length; r++) {
     for (int c = 0; c < grid[0].length; c++) {
       if (grid[r][c] == 1) {
-        fill(duration[r][c] / 10, 100, 50);
+        fill(duration[r][c] / 10, 30, 50);
         square(c*SPACING, r*SPACING, SPACING);
       }
     }
@@ -100,6 +102,17 @@ void initGrid(float density) {
     for (int c = 0; c < grid[0].length; c++) {
       grid[r][c] = ((int)(Math.random() / density) == 1) ? 1 : 0;
       duration[r][c] = 0;
+    }
   }
 }
+
+void addLives() {
+  for (int r = 0; r < grid.length; r++) {
+    for (int c = 0; c < grid[0].length; c++) {
+      if (grid[r][c] == 0) {
+        grid[r][c] = ((int)(Math.random() / 0.15) == 1) ? 1 : 0;
+        duration[r][c] = 0;
+      }
+    }
+  }
 }
